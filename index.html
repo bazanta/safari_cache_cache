@@ -15,69 +15,104 @@
 
     <body>
 
-          <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Safary</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
       
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Règle</a>
-                </li>
-              </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#regles">Règles</a>
+                    </li>
+                </ul>
             </div>
-          </nav>
+        </nav>
+
+        <!-- Modal règle -->
+        <div class="modal fade" id="regles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Règles du jeu
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            Choisissez un défi et repérez le nombre et le genre d’animaux présents sur la carte.
+                        </li>
+                        <li>
+                            Placez les 4 pièces sur le plateau de jeu de façon à ce que les animaux qui sont sur la carte soient visibles.
+                        </li>
+                        <li>
+                            Il n’y a qu’une seule solution possible pour chaque défi.
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+            </div>
+        </div>
       
-          <main role="main" class="container">
-      
+        <!-- Jeu -->
+        <main role="main" class="container-fluid">      
             <div class="row">
-                <h1>
-                    Safary cache-cache
-                </h1>
+                <div class="col-lg-12">
+                    <h1 class="text-center">
+                        Safary cache-cache
+                    </h1>
+                </div>
             </div>
             <div class="row">
                 <!-- Problème -->
-                <div class="col-lg-2">
-
+                <div class="col-lg-4">
+                    
                 </div>
 
                 <!-- Plateau -->
-                <div class="col-lg-6">
-                    <div id="plateau">
-                        <div class="row">
-                            <div class="cases HG droppable dropp ui-widget-header" data-item="">
+                <div class="col-lg-4" id="plateau">
+                    <div class="row">
+                        <div class="plateauLigne">
+                            <div id="HG" class="cases droppable dropp ui-widget-header" data-item="null">
                             </div>
-                            <div class="cases HD droppable dropp ui-widget-header" data-item="">
+                            <div id="HD" class="cases droppable dropp ui-widget-header" data-item="null">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="cases BG droppable dropp ui-widget-header" data-item="">
+                            <div id="BG" class="cases droppable dropp ui-widget-header" data-item="null">
                             </div>
-                            <div class="cases BD droppable dropp ui-widget-header" data-item="">
+                            <div id="BD" class="cases droppable dropp ui-widget-header" data-item="null">
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
 
                 <!-- Pièces -->
-                <div class="col-lg-4 droppablePiece dropp zonePiece">
-                    <div id="P1" class="pieces P1 draggable">                        
-                    </div>
-                    <div id="P2" class="pieces P2 draggable">                        
-                    </div>
-                    <div id="P3" class="pieces P3 draggable">                        
-                    </div>
-                    <div id="P4" class="pieces P4 draggable" data-class="gdgdg">                        
-                    </div>
+                <div class="col-lg-4" id="pieces">
+                    <div class="row">
+                        <div class="zonePiece droppablePiece dropp">
+                            <div id="P1" class="piece draggable">                        
+                            </div>
+                            <div id="P2" class="piece draggable">                        
+                            </div>
+                            <div id="P3" class="piece draggable">                        
+                            </div>
+                            <div id="P4" class="piece draggable">                        
+                            </div>
+                        </div>  
+                    </div>                  
                 </div>
             </div>
-      
-          </main>
+        </main>
 
         <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -97,7 +132,7 @@
                         var drop = $(this).data('droppIn');
                         if (drop) {
                            drop.droppable('enable'); 
-                           $(this).data('droppIn',null);
+                           $(this).data('item',null);
                         }
                     }
                 });
@@ -112,7 +147,7 @@
                     drop: function(event, ui) {
                         $( this ).addClass( "ui-state-highlight" );
                         ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );                        
-                        ui.draggable.data('droppIn',$(this));
+                        ui.draggable.data('item',$(this));
                         $(this).droppable('disable');
                     },
                 });
