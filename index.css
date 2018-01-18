@@ -1,6 +1,5 @@
 nav {
-    background-image: url("./header_cache_cache.jpeg");
-    
+    /* background-image: url("./header_cache_cache.jpeg"); */
 }
 
 .case, .piece {
@@ -15,17 +14,16 @@ nav {
 }
 
 #P1 {
-    background-color: orange;
-    background-image: url("./test.jpeg");
+    background-image: url("./piece_H.png");
 }
 #P2 {
-    background-color: greenyellow;
+    background-image: url("./piece_U.png");
 }
 #P3 {
-    background-color: bisque;
+    background-image: url("./piece_X.png");
 }
 #P4 {
-    background-color: cadetblue;
+    background-image: url("./piece_Y.png");
 }
 
 #HG {
