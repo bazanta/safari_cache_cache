@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>
+            Safari cache-cache
+        </title>
+
+        <!--Feuille de style bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" type="text/css"/>
+        <link rel="stylesheet" href="index.css" type="text/css"/>
+
+    </head>
+
+    <body>
+
+          <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Safary</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Règle</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+      
+          <main role="main" class="container">
+      
+            <div class="row">
+                <h1>
+                    Safary cache-cache
+                </h1>
+            </div>
+            <div class="row">
+                <!-- Problème -->
+                <div class="col-lg-2">
+
+                </div>
+
+                <!-- Plateau -->
+                <div class="col-lg-6">
+                    <div id="plateau">
+                        <div class="row">
+                            <div class="cases HG droppable dropp ui-widget-header" data-item="">
+                            </div>
+                            <div class="cases HD droppable dropp ui-widget-header" data-item="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cases BG droppable dropp ui-widget-header" data-item="">
+                            </div>
+                            <div class="cases BD droppable dropp ui-widget-header" data-item="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pièces -->
+                <div class="col-lg-4 droppablePiece dropp zonePiece">
+                    <div id="P1" class="pieces P1 draggable">                        
+                    </div>
+                    <div id="P2" class="pieces P2 draggable">                        
+                    </div>
+                    <div id="P3" class="pieces P3 draggable">                        
+                    </div>
+                    <div id="P4" class="pieces P4 draggable" data-class="gdgdg">                        
+                    </div>
+                </div>
+            </div>
+      
+          </main>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://unpkg.com/sweetalert2@7.4.0/dist/sweetalert2.all.js"></script>
+        <script>
+            $( function() {
+                // Pieces du puzzle
+                $(".draggable").draggable({
+                    revert: "invalid",
+                    cursor: "move",
+                    snap : ".dropp",
+                    //grid : [200 , 200],
+                    containment : 'body',
+                    drag: function (event, ui) {
+                        var drop = $(this).data('droppIn');
+                        if (drop) {
+                           drop.droppable('enable'); 
+                           $(this).data('droppIn',null);
+                        }
+                    }
+                });
+
+                // Plateau puzzle
+                $(".droppable").droppable({
+                    accept: ".draggable",
+                    classes: {
+                        "ui-droppable-active": "ui-state-active",
+                        "ui-droppable-hover": "ui-state-hover"
+                    },
+                    drop: function(event, ui) {
+                        $( this ).addClass( "ui-state-highlight" );
+                        ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );                        
+                        ui.draggable.data('droppIn',$(this));
+                        $(this).droppable('disable');
+                    },
+                });
+
+                // Zone départ des pièces
+                $('.droppablePiece').droppable({
+                    accept: ".draggable",
+                    classes: {
+                        "ui-droppable-active": "ui-state-active",
+                        "ui-droppable-hover": "ui-state-hover"
+                    },
+                    drop: function(event, ui) {
+                        $( this ).addClass( "ui-state-highlight" );
+                    }
+                });
+
+            } );
+        </script>
+    </body>
+</html>

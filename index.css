@@ -1,0 +1,42 @@
+.HG {
+    background-color: tomato;
+}
+
+.HD {
+    background-color: blueviolet;
+}
+
+.BG {
+    background-color: blue;
+}
+
+.BD {
+    background-color: aqua;
+}
+
+.cases, .pieces {
+    height: 200px;
+    width: 200px;
+}
+
+.cases {
+    border: 8px solid green;
+}
+
+.P1 {
+    background-color: orange;
+}
+.P2 {
+    background-color: greenyellow;
+}
+.P3 {
+    background-color: bisque;
+}
+.P4 {
+    background-color: cadetblue;
+}
+
+.zonePiece {
+    border: 1px solid black;
+    background-color: green;
+}
