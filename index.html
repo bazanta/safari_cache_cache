@@ -9,6 +9,7 @@
         <!--Feuille de style bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" type="text/css"/>
+        <script src="https://use.fontawesome.com/a7bdfde5ba.js"></script>
         <link rel="stylesheet" href="index.css" type="text/css"/>
 
     </head>
@@ -71,6 +72,9 @@
                 <div class="col-lg-12">
                     <h1 class="text-center">
                         Safary cache-cache
+                        <a id="aide" class="btn btn-primary">
+                            aide
+                        </a>
                     </h1>
                 </div>
             </div>
@@ -81,34 +85,35 @@
                 </div>
 
                 <!-- Plateau -->
-                <div class="col-lg-4" id="plateau">
-                    <div class="row">
-                        <div class="plateauLigne">
-                            <div id="HG" class="cases droppable dropp ui-widget-header" data-item="null">
-                            </div>
-                            <div id="HD" class="cases droppable dropp ui-widget-header" data-item="null">
-                            </div>
-                            <div id="BG" class="cases droppable dropp ui-widget-header" data-item="null">
-                            </div>
-                            <div id="BD" class="cases droppable dropp ui-widget-header" data-item="null">
-                            </div>
-                        </div>                        
-                    </div>
+                <div class="col-lg-4 zone" id="plateau">
+                    <div class="plateauLigne">
+                        <div id="HG" class="case droppable dropp ui-widget-header" data-num="1" >
+                        </div>
+                        <div id="HD" class="case droppable dropp ui-widget-header" data-num="2">
+                        </div>
+                        <div id="BG" class="case droppable dropp ui-widget-header" data-num="3">
+                        </div>
+                        <div id="BD" class="case droppable dropp ui-widget-header" data-num="4">
+                        </div>
+                    </div>  
                 </div>
 
                 <!-- Pièces -->
-                <div class="col-lg-4" id="pieces">
-                    <div class="row">
-                        <div class="zonePiece droppablePiece dropp">
-                            <div id="P1" class="piece draggable">                        
-                            </div>
-                            <div id="P2" class="piece draggable">                        
-                            </div>
-                            <div id="P3" class="piece draggable">                        
-                            </div>
-                            <div id="P4" class="piece draggable">                        
-                            </div>
-                        </div>  
+                <div class="col-lg-4 zone" id="pieces">
+                    <div class="zonePiece droppablePiece dropp">
+                        <div id="P1" class="piece draggable" data-rotation="0" data-num="1"> 
+                            <!--
+                            <span class="iconeRight">
+                                <i class="fa fa-repeat" aria-hidden="true"></i>
+                            </span>   
+                            -->                    
+                        </div>
+                        <div id="P2" class="piece draggable" data-rotation="0" data-num="2">                       
+                        </div>
+                        <div id="P3" class="piece draggable" data-rotation="0" data-num="3">       
+                        </div>
+                        <div id="P4" class="piece draggable" data-rotation="0" data-num="4">  
+                        </div>
                     </div>                  
                 </div>
             </div>
@@ -129,7 +134,7 @@
                     //grid : [200 , 200],
                     containment : 'body',
                     drag: function (event, ui) {
-                        var drop = $(this).data('droppIn');
+                        var drop = $(this).data('item');
                         if (drop) {
                            drop.droppable('enable'); 
                            $(this).data('item',null);
@@ -162,6 +167,33 @@
                     drop: function(event, ui) {
                         $( this ).addClass( "ui-state-highlight" );
                     }
+                });
+
+                // Rotation des pièces
+                $('.piece').click(function(){
+                    var parent = $(this).closest("div.piece");
+                    var rotate = parent.data('rotation');
+                    parent.removeClass("rotate"+(90*rotate));
+                    if (rotate == 3) {
+                        rotate=0;
+                    } else {
+                        rotate++;
+                    }
+                    parent.data("rotation",rotate);
+                    parent.addClass("rotate"+(90*rotate));            
+                });
+
+                // Récupération de l'état du jeu en cours pour vérifier les pièces bien placées
+                $('#aide').click(function(){
+                    var tabPlateau = [];
+                    $('.piece').each(function(){
+                        var casePlateau = $(this).data('item');
+                        // Si la pièce est liée à une case, récupère les infos
+                        if (casePlateau) {
+                            tabPlateau[casePlateau.data('num')] = [$(this).data('num'),$(this).data('rotation')];
+                        }
+                    });
+                    console.log(tabPlateau);
                 });
 
             } );
